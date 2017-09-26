@@ -1,0 +1,4 @@
+suites:
+    roukmoute:
+        namespace: PHPSystem\Core
+        psr4_prefix: PHPSystem\Core
