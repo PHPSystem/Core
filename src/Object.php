@@ -19,4 +19,12 @@ class Object
     {
         return $this === $object;
     }
+
+    /**
+     * A hash code for the current object
+     */
+    public function hashCode(): string
+    {
+        return spl_object_hash($this);
+    }
 }

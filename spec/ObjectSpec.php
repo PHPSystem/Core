@@ -28,4 +28,11 @@ class ObjectSpec extends ObjectBehavior
 
         expect($person1a->equals($person2))->toBe(false);
     }
+
+    public function it_serves_as_the_default_hash_function()
+    {
+        $person1a = new Person('John');
+
+        expect($person1a->hashCode())->toBe(spl_object_hash($person1a));
+    }
 }
