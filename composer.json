@@ -25,6 +25,7 @@
         "php": ">=7.1"
     },
     "require-dev": {
+        "bossa/phpspec2-expect": "^3.0",
         "phpspec/phpspec": "^4.0"
     },
     "config": {
