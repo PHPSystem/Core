@@ -12,4 +12,11 @@ namespace PHPSystem\Core;
  */
 class Object
 {
+    /*
+     * Determines whether the specified object is equal to the current object.
+     */
+    public function equals(Object $object): bool
+    {
+        return $this === $object;
+    }
 }
