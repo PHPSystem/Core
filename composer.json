@@ -1,0 +1,32 @@
+{
+    "name": "phpsystem/core",
+    "description": "Core is a library that contains a set of reusable PHP components that follow implementation as System from .NET.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roukmoute",
+            "email": "contact@roukmoute.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload":     {
+        "psr-4": {
+            "PHPSystem\\Core\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "require": {
+        "php": ">=7.1"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    }
+}
