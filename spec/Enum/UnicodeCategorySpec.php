@@ -30,6 +30,7 @@ use PHPSystem\Core\Enum\Member\PrivateUse;
 use PHPSystem\Core\Enum\Member\SpaceSeparator;
 use PHPSystem\Core\Enum\Member\SpacingCombiningMark;
 use PHPSystem\Core\Enum\Member\TitlecaseLetter;
+use PHPSystem\Core\Enum\Member\UppercaseLetter;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -388,5 +389,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith("\u{DC01}");
         $this->isLike(new TitlecaseLetter())->shouldReturn(false);
+    }
+
+    public function it_is_an_uppercase_letter()
+    {
+        foreach (['A', 'Z', 'À', 'Ž', '𝜜', '𝟊'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new UppercaseLetter()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_an_uppercase_letter()
+    {
+        $this->beConstructedWith('a');
+        $this->isLike(new UppercaseLetter())->shouldReturn(false);
     }
 }
