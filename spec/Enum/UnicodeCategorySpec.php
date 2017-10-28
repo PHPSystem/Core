@@ -23,6 +23,7 @@ use PHPSystem\Core\Enum\Member\NonSpacingMark;
 use PHPSystem\Core\Enum\Member\OpenPunctuation;
 use PHPSystem\Core\Enum\Member\OtherLetter;
 use PHPSystem\Core\Enum\Member\OtherNumber;
+use PHPSystem\Core\Enum\Member\OtherPunctuation;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -291,5 +292,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('1');
         $this->isLike(new OtherNumber())->shouldReturn(false);
+    }
+
+    public function it_is_an_other_punctuation()
+    {
+        foreach (['!', '𒑴', '𑁍', '@', '＠', '／', '%', '&', '︖', '〽', '⸿', '⸘', '⁐'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new OtherPunctuation()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_an_other_punctuation()
+    {
+        $this->beConstructedWith('ㄨ');
+        $this->isLike(new OtherPunctuation())->shouldReturn(false);
     }
 }
