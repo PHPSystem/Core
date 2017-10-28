@@ -28,6 +28,7 @@ use PHPSystem\Core\Enum\Member\OtherSymbol;
 use PHPSystem\Core\Enum\Member\ParagraphSeparator;
 use PHPSystem\Core\Enum\Member\PrivateUse;
 use PHPSystem\Core\Enum\Member\SpaceSeparator;
+use PHPSystem\Core\Enum\Member\SpacingCombiningMark;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -360,5 +361,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith("\u{203F}");
         $this->isLike(new SpaceSeparator())->shouldReturn(false);
+    }
+
+    public function it_is_a_spacing_combining_mark()
+    {
+        foreach (['ः', '𝅲', '𝅦', 'ꦿ', '᳡', 'ៀ', 'ြ', 'ෞ', 'ൈ', 'ௌ'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new SpacingCombiningMark()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_spacing_combining_mark()
+    {
+        $this->beConstructedWith("\u{1D173}");
+        $this->isLike(new SpacingCombiningMark())->shouldReturn(false);
     }
 }
