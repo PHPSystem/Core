@@ -25,6 +25,7 @@ use PHPSystem\Core\Enum\Member\OtherLetter;
 use PHPSystem\Core\Enum\Member\OtherNumber;
 use PHPSystem\Core\Enum\Member\OtherPunctuation;
 use PHPSystem\Core\Enum\Member\OtherSymbol;
+use PHPSystem\Core\Enum\Member\ParagraphSeparator;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -319,5 +320,17 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('🧀');
         $this->isLike(new OtherSymbol())->shouldReturn(false);
+    }
+
+    public function it_is_a_paragraph_symbol()
+    {
+        $this->beConstructedWith("\u{2029}");
+        $this->isLike(new ParagraphSeparator())->shouldReturn(true);
+    }
+
+    public function it_is_not_a_paragraph_symbol()
+    {
+        $this->beConstructedWith(PHP_EOL);
+        $this->isLike(new ParagraphSeparator())->shouldReturn(false);
     }
 }
