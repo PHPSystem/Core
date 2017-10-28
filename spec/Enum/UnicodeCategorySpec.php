@@ -26,6 +26,7 @@ use PHPSystem\Core\Enum\Member\OtherNumber;
 use PHPSystem\Core\Enum\Member\OtherPunctuation;
 use PHPSystem\Core\Enum\Member\OtherSymbol;
 use PHPSystem\Core\Enum\Member\ParagraphSeparator;
+use PHPSystem\Core\Enum\Member\PrivateUse;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -332,5 +333,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith(PHP_EOL);
         $this->isLike(new ParagraphSeparator())->shouldReturn(false);
+    }
+
+    public function it_is_a_private_use()
+    {
+        foreach (["\u{E000}", "\u{F8FF}", "\u{F0000}", "\u{FFFFD}", "\u{100000}", "\u{10FFFD}"] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new PrivateUse()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_private_use()
+    {
+        $this->beConstructedWith("\u{10FFFF}");
+        $this->isLike(new PrivateUse())->shouldReturn(false);
     }
 }
