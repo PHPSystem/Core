@@ -11,6 +11,7 @@ use PHPSystem\Core\Enum\Member\DashPunctuation;
 use PHPSystem\Core\Enum\Member\DecimalDigitNumber;
 use PHPSystem\Core\Enum\Member\EnclosingMark;
 use PHPSystem\Core\Enum\Member\FinalQuotePunctuation;
+use PHPSystem\Core\Enum\Member\Format;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -124,5 +125,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('"');
         $this->isLike(new FinalQuotePunctuation())->shouldReturn(false);
+    }
+
+    public function it_is_a_format()
+    {
+        foreach (['؀', '۝', "\u{00AD}", "\u{E007F}"] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new Format()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_format()
+    {
+        $this->beConstructedWith('࣢');
+        $this->isLike(new Format())->shouldReturn(false);
     }
 }
