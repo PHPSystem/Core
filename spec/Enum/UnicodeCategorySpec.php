@@ -5,6 +5,7 @@ namespace spec\PHPSystem\Core\Enum;
 
 use PHPSystem\Core\Enum\Member\ClosePunctuation;
 use PHPSystem\Core\Enum\Member\ConnectorPunctuation;
+use PHPSystem\Core\Enum\Member\Control;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -40,5 +41,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('-');
         $this->isLike(new ConnectorPunctuation())->shouldReturn(false);
+    }
+
+    public function it_is_a_control()
+    {
+        foreach (['	', PHP_EOL, "\u{0000}", "\u{0099}", "\u{009F}"] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new Control()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_control()
+    {
+        $this->beConstructedWith("\u{00A0}");
+        $this->isLike(new Control())->shouldReturn(false);
     }
 }
