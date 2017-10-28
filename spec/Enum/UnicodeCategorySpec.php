@@ -16,6 +16,7 @@ use PHPSystem\Core\Enum\Member\InitialQuotePunctuation;
 use PHPSystem\Core\Enum\Member\LetterNumber;
 use PHPSystem\Core\Enum\Member\LineSeparator;
 use PHPSystem\Core\Enum\Member\LowercaseLetter;
+use PHPSystem\Core\Enum\Member\MathSymbol;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -193,5 +194,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('A');
         $this->isLike(new LowercaseLetter())->shouldReturn(false);
+    }
+
+    public function it_is_a_math_symbol()
+    {
+        foreach (['+', '𝟃', '=', '±', '×', '⅀', '∑', '∭', '≧', '⋙', '◁', '⟙', '⨊'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new MathSymbol()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_math_symbol()
+    {
+        $this->beConstructedWith('ß');
+        $this->isLike(new MathSymbol())->shouldReturn(false);
     }
 }
