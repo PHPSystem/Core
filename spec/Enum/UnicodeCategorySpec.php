@@ -27,6 +27,7 @@ use PHPSystem\Core\Enum\Member\OtherPunctuation;
 use PHPSystem\Core\Enum\Member\OtherSymbol;
 use PHPSystem\Core\Enum\Member\ParagraphSeparator;
 use PHPSystem\Core\Enum\Member\PrivateUse;
+use PHPSystem\Core\Enum\Member\SpaceSeparator;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -346,5 +347,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith("\u{10FFFF}");
         $this->isLike(new PrivateUse())->shouldReturn(false);
+    }
+
+    public function it_is_a_space_separator()
+    {
+        foreach (["\u{0020}", "\u{2000}", "\u{200A}", "\u{202F}", "\u{205F}", "\u{3000}"] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new SpaceSeparator()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_space_separator()
+    {
+        $this->beConstructedWith("\u{203F}");
+        $this->isLike(new SpaceSeparator())->shouldReturn(false);
     }
 }
