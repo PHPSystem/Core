@@ -22,6 +22,7 @@ use PHPSystem\Core\Enum\Member\ModifierSymbol;
 use PHPSystem\Core\Enum\Member\NonSpacingMark;
 use PHPSystem\Core\Enum\Member\OpenPunctuation;
 use PHPSystem\Core\Enum\Member\OtherLetter;
+use PHPSystem\Core\Enum\Member\OtherNumber;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -277,5 +278,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('🏿');
         $this->isLike(new OtherLetter())->shouldReturn(false);
+    }
+
+    public function it_is_an_other_number()
+    {
+        foreach (['²', '🄌', '㈠', '𑁚', '𐭘', '㊷', '➊', '➉', '⒈', '⒑'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new OtherNumber()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_an_other_number()
+    {
+        $this->beConstructedWith('1');
+        $this->isLike(new OtherNumber())->shouldReturn(false);
     }
 }
