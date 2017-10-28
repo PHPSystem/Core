@@ -20,6 +20,7 @@ use PHPSystem\Core\Enum\Member\MathSymbol;
 use PHPSystem\Core\Enum\Member\ModifierLetter;
 use PHPSystem\Core\Enum\Member\ModifierSymbol;
 use PHPSystem\Core\Enum\Member\NonSpacingMark;
+use PHPSystem\Core\Enum\Member\OpenPunctuation;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -249,5 +250,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith("\u{E01F0}");
         $this->isLike(new NonSpacingMark())->shouldReturn(false);
+    }
+
+    public function it_is_an_open_punctuation()
+    {
+        foreach (['(', '｢', '《', '⦕', '❰', '༺'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new OpenPunctuation()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_an_open_punctuation()
+    {
+        $this->beConstructedWith('"');
+        $this->isLike(new OpenPunctuation())->shouldReturn(false);
     }
 }
