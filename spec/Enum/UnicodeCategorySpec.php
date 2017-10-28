@@ -12,6 +12,7 @@ use PHPSystem\Core\Enum\Member\DecimalDigitNumber;
 use PHPSystem\Core\Enum\Member\EnclosingMark;
 use PHPSystem\Core\Enum\Member\FinalQuotePunctuation;
 use PHPSystem\Core\Enum\Member\Format;
+use PHPSystem\Core\Enum\Member\InitialQuotePunctuation;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -138,5 +139,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('࣢');
         $this->isLike(new Format())->shouldReturn(false);
+    }
+
+    public function it_is_an_initial_quote_punctuation()
+    {
+        foreach (['«', '‘', '‛', '“', '‟', '‹', '⸂', '⸄', '⸉', '⸌', '⸜', '⸠'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new InitialQuotePunctuation()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_an_initial_quote_punctuation()
+    {
+        $this->beConstructedWith('"');
+        $this->isLike(new InitialQuotePunctuation())->shouldReturn(false);
     }
 }
