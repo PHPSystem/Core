@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace spec\PHPSystem\Core\Enum;
 
 use PHPSystem\Core\Enum\Member\ClosePunctuation;
+use PHPSystem\Core\Enum\Member\ConnectorPunctuation;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -26,5 +27,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('>');
         $this->isLike(new ClosePunctuation())->shouldReturn(false);
+    }
+
+    public function it_is_a_connector_punctuation()
+    {
+        foreach (['_', '‿', '⁀', '⁔', '︳', '︴', '﹍', '﹎', '﹏', '＿'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new ConnectorPunctuation()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_connector_punctuation()
+    {
+        $this->beConstructedWith('-');
+        $this->isLike(new ConnectorPunctuation())->shouldReturn(false);
     }
 }
