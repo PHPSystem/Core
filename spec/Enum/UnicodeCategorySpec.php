@@ -8,6 +8,7 @@ use PHPSystem\Core\Enum\Member\ConnectorPunctuation;
 use PHPSystem\Core\Enum\Member\Control;
 use PHPSystem\Core\Enum\Member\CurrencySymbol;
 use PHPSystem\Core\Enum\Member\DashPunctuation;
+use PHPSystem\Core\Enum\Member\DecimalDigitNumber;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -82,5 +83,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('|');
         $this->isLike(new DashPunctuation())->shouldReturn(false);
+    }
+
+    public function it_is_a_decimal_digit_number()
+    {
+        foreach (['0', '9', '𝟘', '𝟡', '𝟢', '𝟫', '𝟬', '𝟵', '𝟶', '𝟿', '꧐', '꧙', '꘠', '꘩', '༠', '༩'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new DecimalDigitNumber()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_decimal_digit_number()
+    {
+        $this->beConstructedWith('O');
+        $this->isLike(new DecimalDigitNumber())->shouldReturn(false);
     }
 }
