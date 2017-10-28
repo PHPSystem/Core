@@ -13,6 +13,7 @@ use PHPSystem\Core\Enum\Member\EnclosingMark;
 use PHPSystem\Core\Enum\Member\FinalQuotePunctuation;
 use PHPSystem\Core\Enum\Member\Format;
 use PHPSystem\Core\Enum\Member\InitialQuotePunctuation;
+use PHPSystem\Core\Enum\Member\LetterNumber;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -152,5 +153,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('"');
         $this->isLike(new InitialQuotePunctuation())->shouldReturn(false);
+    }
+
+    public function it_is_a_letter_number()
+    {
+        foreach (['ᛮ', 'Ⅰ', 'Ⅻ', 'Ⅿ', '𒑮', '𒐱', '𒐫'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new LetterNumber()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_letter_number()
+    {
+        $this->beConstructedWith('M');
+        $this->isLike(new LetterNumber())->shouldReturn(false);
     }
 }
