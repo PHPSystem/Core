@@ -19,6 +19,7 @@ use PHPSystem\Core\Enum\Member\LowercaseLetter;
 use PHPSystem\Core\Enum\Member\MathSymbol;
 use PHPSystem\Core\Enum\Member\ModifierLetter;
 use PHPSystem\Core\Enum\Member\ModifierSymbol;
+use PHPSystem\Core\Enum\Member\NonSpacingMark;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -235,5 +236,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('🏿');
         $this->isLike(new ModifierSymbol())->shouldReturn(false);
+    }
+
+    public function it_is_a_non_spacing_mark()
+    {
+        foreach (['̀', "\u{E01EF}", '𝆋', '𝅩', '𑀸', '𐨁', 'ꙴ', '゙'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new NonSpacingMark()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_non_spacing_mark()
+    {
+        $this->beConstructedWith("\u{E01F0}");
+        $this->isLike(new NonSpacingMark())->shouldReturn(false);
     }
 }
