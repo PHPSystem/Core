@@ -14,6 +14,7 @@ use PHPSystem\Core\Enum\Member\FinalQuotePunctuation;
 use PHPSystem\Core\Enum\Member\Format;
 use PHPSystem\Core\Enum\Member\InitialQuotePunctuation;
 use PHPSystem\Core\Enum\Member\LetterNumber;
+use PHPSystem\Core\Enum\Member\LineSeparator;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -166,5 +167,17 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('M');
         $this->isLike(new LetterNumber())->shouldReturn(false);
+    }
+
+    public function it_is_a_line_separator()
+    {
+        $this->beConstructedWith("\u{2028}");
+        $this->isLike(new LineSeparator())->shouldReturn(true);
+    }
+
+    public function it_is_not_a_line_separator()
+    {
+        $this->beConstructedWith(PHP_EOL);
+        $this->isLike(new LineSeparator())->shouldReturn(false);
     }
 }
