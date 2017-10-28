@@ -15,6 +15,7 @@ use PHPSystem\Core\Enum\Member\Format;
 use PHPSystem\Core\Enum\Member\InitialQuotePunctuation;
 use PHPSystem\Core\Enum\Member\LetterNumber;
 use PHPSystem\Core\Enum\Member\LineSeparator;
+use PHPSystem\Core\Enum\Member\LowercaseLetter;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -179,5 +180,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith(PHP_EOL);
         $this->isLike(new LineSeparator())->shouldReturn(false);
+    }
+
+    public function it_is_a_lowercase_letter()
+    {
+        foreach (['a', 'z', 'µ', 'ß', 'ϣ', 'ȱ', 'ƕ', 'œ', 'ê', 'ｚ',] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new LowercaseLetter()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_lowercase_letter()
+    {
+        $this->beConstructedWith('A');
+        $this->isLike(new LowercaseLetter())->shouldReturn(false);
     }
 }
