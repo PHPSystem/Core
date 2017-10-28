@@ -9,6 +9,7 @@ use PHPSystem\Core\Enum\Member\Control;
 use PHPSystem\Core\Enum\Member\CurrencySymbol;
 use PHPSystem\Core\Enum\Member\DashPunctuation;
 use PHPSystem\Core\Enum\Member\DecimalDigitNumber;
+use PHPSystem\Core\Enum\Member\EnclosingMark;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -96,5 +97,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('O');
         $this->isLike(new DecimalDigitNumber())->shouldReturn(false);
+    }
+
+    public function it_is_an_enclosing_mark()
+    {
+        foreach (['҈', '҉', '⃝', '⃞', '⃟', '⃠', '⃢', '⃣', '⃤', '꙰', '꙱', '꙲', '᪾'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new EnclosingMark()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_an_enclosing_mark()
+    {
+        $this->beConstructedWith('⸗');
+        $this->isLike(new EnclosingMark())->shouldReturn(false);
     }
 }
