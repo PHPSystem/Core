@@ -17,6 +17,7 @@ use PHPSystem\Core\Enum\Member\LetterNumber;
 use PHPSystem\Core\Enum\Member\LineSeparator;
 use PHPSystem\Core\Enum\Member\LowercaseLetter;
 use PHPSystem\Core\Enum\Member\MathSymbol;
+use PHPSystem\Core\Enum\Member\ModifierLetter;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -207,5 +208,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('ß');
         $this->isLike(new MathSymbol())->shouldReturn(false);
+    }
+
+    public function it_is_a_modifier_letter()
+    {
+        foreach (['ʰ', 'ﾟ', 'ꜝ', 'ꜛ', 'ꜜ', 'ꘌ', '々', 'ᶴ', 'ヾ'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new ModifierLetter()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_modifier_letter()
+    {
+        $this->beConstructedWith('𖿡');
+        $this->isLike(new ModifierLetter())->shouldReturn(false);
     }
 }
