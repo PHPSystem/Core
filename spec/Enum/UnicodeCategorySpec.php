@@ -29,6 +29,7 @@ use PHPSystem\Core\Enum\Member\ParagraphSeparator;
 use PHPSystem\Core\Enum\Member\PrivateUse;
 use PHPSystem\Core\Enum\Member\SpaceSeparator;
 use PHPSystem\Core\Enum\Member\SpacingCombiningMark;
+use PHPSystem\Core\Enum\Member\TitlecaseLetter;
 use PHPSystem\Core\Enum\UnicodeCategory;
 use PhpSpec\ObjectBehavior;
 
@@ -374,5 +375,18 @@ class UnicodeCategorySpec extends ObjectBehavior
     {
         $this->beConstructedWith("\u{1D173}");
         $this->isLike(new SpacingCombiningMark())->shouldReturn(false);
+    }
+
+    public function it_is_a_titlecase_letter()
+    {
+        foreach (['ǅ', 'ῼ', 'ᾈ', 'ǋ', 'ᾬ'] as $char) {
+            expect((new UnicodeCategory($char))->isLike(new TitlecaseLetter()))->toBe(true);
+        }
+    }
+
+    public function it_is_not_a_titlecase_letter()
+    {
+        $this->beConstructedWith("\u{DC01}");
+        $this->isLike(new TitlecaseLetter())->shouldReturn(false);
     }
 }
